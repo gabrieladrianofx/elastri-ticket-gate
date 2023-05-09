@@ -14,6 +14,7 @@ import uuid from "react-native-uuid";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { StatusBar } from "expo-status-bar";
+import Toast from "react-native-root-toast";
 
 export function SnackLunch() {
   const [hasPermission, setHasPermission] = useState(null);
@@ -56,10 +57,20 @@ export function SnackLunch() {
         JSON.stringify(collectionData)
       );
 
-      Alert.alert("Sucesso", "Almoço registrado com sucesso 🤝");
+      Toast.show("Almoço registrado com sucesso 🤝", {
+        position: 150,
+        duration: Toast.durations.SHORT,
+        backgroundColor: "#6FDC8C",
+        textColor: "#000000",
+      });
     } catch (error) {
       console.log(error);
-      Alert.alert("Error", "Refeição não cadastrada! ✋");
+      Toast.show("Refeição não cadastrada! ✋", {
+        position: 150,
+        duration: Toast.durations.SHORT,
+        backgroundColor: "#ff320c",
+        textColor: "#000000",
+      });
     }
   };
 

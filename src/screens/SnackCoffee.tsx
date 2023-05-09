@@ -9,6 +9,7 @@ import {
   Alert,
 } from "react-native";
 import { BarCodeScanner, Constants } from "expo-barcode-scanner";
+import Toast from "react-native-root-toast";
 
 import uuid from "react-native-uuid";
 
@@ -56,10 +57,20 @@ export function SnackCoffee() {
         JSON.stringify(collectionData)
       );
 
-      Alert.alert("Sucesso", "Café da manhã registrado com sucesso 🤝");
+      Toast.show("Almoço registrado com sucesso 🤝", {
+        position: 150,
+        duration: Toast.durations.SHORT,
+        backgroundColor: "#6FDC8C",
+        textColor: "#000000",
+      });
     } catch (error) {
       console.log(error);
-      Alert.alert("Error", "Refeição não cadastrada! ✋");
+      Toast.show("Refeição não cadastrada! ✋", {
+        position: 150,
+        duration: Toast.durations.SHORT,
+        backgroundColor: "#ff320c",
+        textColor: "#000000",
+      });
     }
   };
 
