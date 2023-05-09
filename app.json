@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "elastri-ticket-gate",
+    "name": "Elastri Ticket Gate",
     "slug": "elastri-ticket-gate",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -10,6 +10,9 @@
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
