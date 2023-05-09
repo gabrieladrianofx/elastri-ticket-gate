@@ -9,11 +9,23 @@ const { Screen, Navigator } = createNativeStackNavigator();
 
 export function StackRoutes() {
   return (
-    <Navigator initialRouteName="home">
-      <Screen name="home" component={Home} />
-      <Screen name="snackCoffee" component={SnackCoffee} />
-      <Screen name="snackLunch" component={SnackLunch} />
-      <Screen name="mealReport" component={MealReport} />
+    <Navigator initialRouteName="inicio">
+      <Screen name="inicio" component={Home} options={{ title: "Início" }} />
+      <Screen
+        name="snackCoffee"
+        component={SnackCoffee}
+        options={{ title: "Registro do Café da Manhã" }}
+      />
+      <Screen
+        name="snackLunch"
+        component={SnackLunch}
+        options={{ title: "Registro do Almoço" }}
+      />
+      <Screen
+        name="mealReport"
+        component={MealReport}
+        options={{ title: "Relatórios" }}
+      />
     </Navigator>
   );
 }

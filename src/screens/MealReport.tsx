@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import {
-  Button,
   FlatList,
+  Pressable,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -53,7 +53,7 @@ export function MealReport() {
   }
 
   function searchLunch(dateLunch) {
-    const data = dataCoffee.filter((value) => value.dataRefeicao === dateLunch);
+    const data = dataLunch.filter((value) => value.dataRefeicao === dateLunch);
 
     const sizeLunch = data.length;
 
@@ -114,6 +114,7 @@ export function MealReport() {
         />
 
         <Text>Quantidade de café da manhã servidas: {countCoffee}</Text>
+
         <FlatList
           data={dataCoffee}
           keyExtractor={(item) => item.id}
@@ -135,12 +136,13 @@ export function MealReport() {
         />
       </SafeAreaView>
 
-      <Button
-        title="Gerar Relatorio Café da manhã"
-        onPress={generateExcelCoffee}
-      />
+      <Pressable style={styles.button} onPress={generateExcelCoffee}>
+        <Text style={styles.text}>Gerar Relatorio Café da Manhã</Text>
+      </Pressable>
 
-      <Button title="Gerar Relatorio Almoço" onPress={generateExcelLunch} />
+      <Pressable style={styles.button} onPress={generateExcelLunch}>
+        <Text style={styles.text}>Gerar Relatorio Almoço</Text>
+      </Pressable>
 
       <StatusBar animated={true} backgroundColor="#61dafb" />
     </View>
@@ -159,6 +161,27 @@ const styles = StyleSheet.create({
   },
   containerCoffee: {
     marginBottom: 10,
+    height: 150,
   },
-  containerLunch: {},
+  containerLunch: {
+    height: 150,
+    marginBottom: 10,
+  },
+  button: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: "#6FDC8C",
+    margin: 10,
+  },
+  text: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: "bold",
+    letterSpacing: 0.25,
+    color: "white",
+  },
 });

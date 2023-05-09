@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Button, View } from "react-native";
+import { StyleSheet, Button, View, Pressable, Text, Image } from "react-native";
 
 export function Home({ navigation }) {
   function openScreenSnackCoffee() {
@@ -16,9 +16,22 @@ export function Home({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Button title="Registrar café da manhã" onPress={openScreenSnackCoffee} />
-      <Button title="Registrar almoço" onPress={openScreenSnackLunch} />
-      <Button title="Relatório" onPress={openScreenMealReport} />
+      <Image
+        style={styles.buttonImage}
+        source={require("./../public/images/icon.png")}
+      />
+
+      <Pressable style={styles.button} onPress={openScreenSnackCoffee}>
+        <Text style={styles.text}>Registrar Café da Manhã</Text>
+      </Pressable>
+
+      <Pressable style={styles.button} onPress={openScreenSnackLunch}>
+        <Text style={styles.text}>Registrar Almoços</Text>
+      </Pressable>
+
+      <Pressable style={styles.button} onPress={openScreenMealReport}>
+        <Text style={styles.text}>Relatórios</Text>
+      </Pressable>
 
       <StatusBar animated={true} backgroundColor="#61dafb" />
     </View>
@@ -31,5 +44,35 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+  },
+  button: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: "#6FDC8C",
+    margin: 10,
+  },
+  text: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: "bold",
+    letterSpacing: 0.25,
+    color: "white",
+  },
+  buttonImage: {
+    alignItems: "center",
+    justifyContent: "center",
+
+    backgroundColor: "#DDDDDD",
+
+    width: 150,
+    height: 150,
+
+    bottom: 50,
+
+    padding: 10,
   },
 });
