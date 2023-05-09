@@ -10,6 +10,10 @@ export function Home({ navigation }) {
     navigation.navigate("snackLunch");
   }
 
+  function openScreenSnackSupper() {
+    navigation.navigate("snackSupper");
+  }
+
   function openScreenMealReport() {
     navigation.navigate("mealReport");
   }
@@ -27,6 +31,10 @@ export function Home({ navigation }) {
 
       <Pressable style={styles.button} onPress={openScreenSnackLunch}>
         <Text style={styles.text}>Registrar Almoços</Text>
+      </Pressable>
+
+      <Pressable style={styles.button} onPress={openScreenSnackSupper}>
+        <Text style={styles.text}>Registrar Janta</Text>
       </Pressable>
 
       <Pressable style={styles.button} onPress={openScreenMealReport}>
