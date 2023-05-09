@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Home } from "../screens/Home";
 import { SnackCoffee } from "../screens/SnackCoffee";
 import { SnackLunch } from "../screens/SnackLunch";
+import { SnackSupper } from "../screens/SnackSupper";
 import { MealReport } from "../screens/MealReport";
 
 const { Screen, Navigator } = createNativeStackNavigator();
@@ -20,6 +21,11 @@ export function StackRoutes() {
         name="snackLunch"
         component={SnackLunch}
         options={{ title: "Registro do Almoço" }}
+      />
+      <Screen
+        name="snackSupper"
+        component={SnackSupper}
+        options={{ title: "Registro de Janta" }}
       />
       <Screen
         name="mealReport"
