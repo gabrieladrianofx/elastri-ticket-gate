@@ -19,8 +19,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export function MealReport() {
   const [dataCoffee, setDataCoffee] = useState([]);
   const [dataLunch, setDataLunch] = useState([]);
+  const [dataSupper, setDataSupper] = useState([]);
   const [countCoffee, setCountCoffee] = useState(0);
   const [countLunch, setCountLunch] = useState(0);
+  const [countSupper, setCountSupper] = useState(0);
 
   async function handleFetchDataCoffee() {
     const response = await AsyncStorage.getItem(
@@ -42,6 +44,16 @@ export function MealReport() {
     setDataLunch(dataLunch);
   }
 
+  async function handleFetchDataSupper() {
+    const response = await AsyncStorage.getItem(
+      "@elastri_ticket_gate:snackSupper"
+    );
+
+    const dataSupper = response ? JSON.parse(response) : [];
+
+    setDataSupper(dataSupper);
+  }
+
   function searchCoffee(dateCoffee) {
     const data = dataCoffee.filter(
       (value) => value.dataRefeicao === dateCoffee
@@ -60,9 +72,20 @@ export function MealReport() {
     setCountLunch(sizeLunch);
   }
 
+  function searchSupper(dateSupper) {
+    const data = dataSupper.filter(
+      (value) => value.dataRefeicao === dateSupper
+    );
+
+    const sizeSupper = data.length;
+
+    setCountSupper(sizeSupper);
+  }
+
   useEffect(() => {
     handleFetchDataCoffee();
     handleFetchDataLunch();
+    handleFetchDataSupper();
   }, []);
 
   const generateExcelCoffee = () => {
@@ -95,6 +118,21 @@ export function MealReport() {
     });
   };
 
+  const generateExcelSupper = () => {
+    let wb = xlsx.utils.book_new();
+    let ws = xlsx.utils.json_to_sheet(dataSupper);
+
+    xlsx.utils.book_append_sheet(wb, ws, "relatorio_janta", true);
+
+    const base64 = xlsx.write(wb, { type: "base64" });
+    const filename = FileSystem.documentDirectory + "RelatorioJanta.xlsx";
+    FileSystem.writeAsStringAsync(filename, base64, {
+      encoding: FileSystem.EncodingType.Base64,
+    }).then(() => {
+      Sharing.shareAsync(filename);
+    });
+  };
+
   function renderSnack(item) {
     return (
       <View>
@@ -109,7 +147,7 @@ export function MealReport() {
     <View style={styles.container}>
       <SafeAreaView style={styles.containerCoffee}>
         <TextInput
-          placeholder="Insira uma data DD/MM/AAAA"
+          placeholder="Insira uma data do café da manhã DD/MM/AAAA"
           onChangeText={(val) => searchCoffee(val)}
         />
 
@@ -124,7 +162,7 @@ export function MealReport() {
 
       <SafeAreaView style={styles.containerLunch}>
         <TextInput
-          placeholder="Insira uma data DD/MM/AAAA"
+          placeholder="Insira uma data do almoço DD/MM/AAAA"
           onChangeText={(val) => searchLunch(val)}
         />
 
@@ -136,12 +174,30 @@ export function MealReport() {
         />
       </SafeAreaView>
 
+      <SafeAreaView style={styles.containerSupper}>
+        <TextInput
+          placeholder="Insira uma data da janta DD/MM/AAAA"
+          onChangeText={(val) => searchSupper(val)}
+        />
+
+        <Text>Quantidade de jantas servidas: {countSupper}</Text>
+        <FlatList
+          data={dataSupper}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => renderSnack(item)}
+        />
+      </SafeAreaView>
+
       <Pressable style={styles.button} onPress={generateExcelCoffee}>
         <Text style={styles.text}>Gerar Relatorio Café da Manhã</Text>
       </Pressable>
 
       <Pressable style={styles.button} onPress={generateExcelLunch}>
         <Text style={styles.text}>Gerar Relatorio Almoço</Text>
+      </Pressable>
+
+      <Pressable style={styles.button} onPress={generateExcelSupper}>
+        <Text style={styles.text}>Gerar Relatorio Janta</Text>
       </Pressable>
 
       <StatusBar animated={true} backgroundColor="#61dafb" />
@@ -164,6 +220,10 @@ const styles = StyleSheet.create({
     height: 150,
   },
   containerLunch: {
+    height: 150,
+    marginBottom: 10,
+  },
+  containerSupper: {
     height: 150,
     marginBottom: 10,
   },
