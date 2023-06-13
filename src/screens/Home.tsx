@@ -2,6 +2,10 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Button, View, Pressable, Text, Image } from "react-native";
 
 export function Home({ navigation }) {
+  function openScreenRegisterCollaborator() {
+    navigation.navigate("registerCollaborator");
+  }
+
   function openScreenSnackCoffee() {
     navigation.navigate("snackCoffee");
   }
@@ -24,6 +28,10 @@ export function Home({ navigation }) {
         style={styles.buttonImage}
         source={require("./../public/images/icon.png")}
       />
+
+      <Pressable style={styles.button} onPress={openScreenRegisterCollaborator}>
+        <Text style={styles.text}>Registar Colaboradores</Text>
+      </Pressable>
 
       <Pressable style={styles.button} onPress={openScreenSnackCoffee}>
         <Text style={styles.text}>Registrar Café da Manhã</Text>
