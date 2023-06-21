@@ -15,9 +15,7 @@
       "fallbackToCacheTimeout": 0,
       "url": "https://u.expo.dev/267aeb1b-c5e5-4d67-a1c0-423ccab28164"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
@@ -30,9 +28,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "permissions": [
-        "android.permission.CAMERA"
-      ],
+      "permissions": ["android.permission.CAMERA"],
       "package": "com.gabrieladrianofx.elastriticketgate"
     },
     "web": {
@@ -43,6 +39,12 @@
         "expo-barcode-scanner",
         {
           "cameraPermission": "Allow $(PRODUCT_NAME) to access camera."
+        }
+      ],
+      [
+        "expo-document-picker",
+        {
+          "iCloudContainerEnvironment": "Production"
         }
       ]
     ],

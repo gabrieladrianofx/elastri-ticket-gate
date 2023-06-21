@@ -6,16 +6,8 @@ export function Home({ navigation }) {
     navigation.navigate("registerCollaborator");
   }
 
-  function openScreenSnackCoffee() {
-    navigation.navigate("snackCoffee");
-  }
-
-  function openScreenSnackLunch() {
-    navigation.navigate("snackLunch");
-  }
-
-  function openScreenSnackSupper() {
-    navigation.navigate("snackSupper");
+  function openScreenRegisterMeals() {
+    navigation.navigate("registerMeals");
   }
 
   function openScreenMealReport() {
@@ -30,19 +22,11 @@ export function Home({ navigation }) {
       />
 
       <Pressable style={styles.button} onPress={openScreenRegisterCollaborator}>
-        <Text style={styles.text}>Registar Colaboradores</Text>
+        <Text style={styles.text}>Registrar Colaboradores</Text>
       </Pressable>
 
-      <Pressable style={styles.button} onPress={openScreenSnackCoffee}>
-        <Text style={styles.text}>Registrar Café da Manhã</Text>
-      </Pressable>
-
-      <Pressable style={styles.button} onPress={openScreenSnackLunch}>
-        <Text style={styles.text}>Registrar Almoços</Text>
-      </Pressable>
-
-      <Pressable style={styles.button} onPress={openScreenSnackSupper}>
-        <Text style={styles.text}>Registrar Janta</Text>
+      <Pressable style={styles.button} onPress={openScreenRegisterMeals}>
+        <Text style={styles.text}>Registrar Refeições</Text>
       </Pressable>
 
       <Pressable style={styles.button} onPress={openScreenMealReport}>

@@ -17,115 +17,44 @@ import * as Sharing from "expo-sharing";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export function MealReport() {
-  const [dataCoffee, setDataCoffee] = useState([]);
-  const [dataLunch, setDataLunch] = useState([]);
-  const [dataSupper, setDataSupper] = useState([]);
-  const [countCoffee, setCountCoffee] = useState(0);
-  const [countLunch, setCountLunch] = useState(0);
-  const [countSupper, setCountSupper] = useState(0);
+  const [dataMeals, setDataMeals] = useState([]);
+  const [dateMeals, setDateMeals] = useState(String);
+  const [typeMeals, setTypeMeals] = useState(String);
+  const [countMeals, setCountMeals] = useState(0);
 
-  async function handleFetchDataCoffee() {
+  async function handleFetchDataMeals() {
     const response = await AsyncStorage.getItem(
-      "@elastri_ticket_gate:snackCoffee"
+      "@elastri_ticket_gate:registerMeals"
     );
 
-    const dataCoffee = response ? JSON.parse(response) : [];
+    const dataMeals = response ? JSON.parse(response) : [];
 
-    setDataCoffee(dataCoffee);
+    setDataMeals(dataMeals);
   }
 
-  async function handleFetchDataLunch() {
-    const response = await AsyncStorage.getItem(
-      "@elastri_ticket_gate:snackLunch"
+  const searchMeals = (dateMeals: any, typeMeals: any) => {
+    const data = dataMeals.filter(
+      (value) =>
+        value.dataRefeicao === dateMeals && value.tipoDaRefeicao === typeMeals
     );
 
-    const dataLunch = response ? JSON.parse(response) : [];
+    const sizeMeals = data.length;
 
-    setDataLunch(dataLunch);
-  }
-
-  async function handleFetchDataSupper() {
-    const response = await AsyncStorage.getItem(
-      "@elastri_ticket_gate:snackSupper"
-    );
-
-    const dataSupper = response ? JSON.parse(response) : [];
-
-    setDataSupper(dataSupper);
-  }
-
-  function searchCoffee(dateCoffee) {
-    const data = dataCoffee.filter(
-      (value) => value.dataRefeicao === dateCoffee
-    );
-
-    const sizeCoffee = data.length;
-
-    setCountCoffee(sizeCoffee);
-  }
-
-  function searchLunch(dateLunch) {
-    const data = dataLunch.filter((value) => value.dataRefeicao === dateLunch);
-
-    const sizeLunch = data.length;
-
-    setCountLunch(sizeLunch);
-  }
-
-  function searchSupper(dateSupper) {
-    const data = dataSupper.filter(
-      (value) => value.dataRefeicao === dateSupper
-    );
-
-    const sizeSupper = data.length;
-
-    setCountSupper(sizeSupper);
-  }
+    setCountMeals(sizeMeals);
+  };
 
   useEffect(() => {
-    handleFetchDataCoffee();
-    handleFetchDataLunch();
-    handleFetchDataSupper();
+    handleFetchDataMeals();
   }, []);
 
-  const generateExcelCoffee = () => {
+  const generateExcelMeals = () => {
     let wb = xlsx.utils.book_new();
-    let ws = xlsx.utils.json_to_sheet(dataCoffee);
+    let ws = xlsx.utils.json_to_sheet(dataMeals);
 
-    xlsx.utils.book_append_sheet(wb, ws, "relatorio_cafe", true);
+    xlsx.utils.book_append_sheet(wb, ws, "relatorio_geral", true);
 
     const base64 = xlsx.write(wb, { type: "base64" });
-    const filename = FileSystem.documentDirectory + "RelatorioCafe.xlsx";
-    FileSystem.writeAsStringAsync(filename, base64, {
-      encoding: FileSystem.EncodingType.Base64,
-    }).then(() => {
-      Sharing.shareAsync(filename);
-    });
-  };
-
-  const generateExcelLunch = () => {
-    let wb = xlsx.utils.book_new();
-    let ws = xlsx.utils.json_to_sheet(dataLunch);
-
-    xlsx.utils.book_append_sheet(wb, ws, "relatorio_almoco", true);
-
-    const base64 = xlsx.write(wb, { type: "base64" });
-    const filename = FileSystem.documentDirectory + "RelatorioAlmoco.xlsx";
-    FileSystem.writeAsStringAsync(filename, base64, {
-      encoding: FileSystem.EncodingType.Base64,
-    }).then(() => {
-      Sharing.shareAsync(filename);
-    });
-  };
-
-  const generateExcelSupper = () => {
-    let wb = xlsx.utils.book_new();
-    let ws = xlsx.utils.json_to_sheet(dataSupper);
-
-    xlsx.utils.book_append_sheet(wb, ws, "relatorio_janta", true);
-
-    const base64 = xlsx.write(wb, { type: "base64" });
-    const filename = FileSystem.documentDirectory + "RelatorioJanta.xlsx";
+    const filename = FileSystem.documentDirectory + "Relatorio_Geral.xlsx";
     FileSystem.writeAsStringAsync(filename, base64, {
       encoding: FileSystem.EncodingType.Base64,
     }).then(() => {
@@ -137,7 +66,8 @@ export function MealReport() {
     return (
       <View>
         <Text>
-          MATRÍCULA: {item.matricula} - {item.dataRefeicao}
+          {item.matricula} - {item.nome} - {item.dataRefeicao} -{" "}
+          {item.horaRefeicao} - {item.tipoDaRefeicao}
         </Text>
       </View>
     );
@@ -145,59 +75,40 @@ export function MealReport() {
 
   return (
     <View style={styles.container}>
-      <SafeAreaView style={styles.containerCoffee}>
+      <View style={styles.containerText}>
         <TextInput
-          placeholder="Insira uma data do café da manhã DD/MM/AAAA"
-          onChangeText={(val) => searchCoffee(val)}
+          style={styles.textDate}
+          placeholder="Insira uma data refeicao DD/MM/AAAA"
+          onChangeText={(val) => setDateMeals(val)}
         />
+        <TextInput
+          style={styles.textType}
+          placeholder="Insira o Tipo da Refeicao. Ex.: 'CAFE / ALMOCO / JANTA'"
+          onChangeText={(val) => setTypeMeals(val)}
+        />
+      </View>
 
-        <Text>Quantidade de café da manhã servidas: {countCoffee}</Text>
+      <View style={styles.containerButton}>
+        <Pressable
+          style={styles.buttonBuscar}
+          onPress={() => searchMeals(dateMeals, typeMeals)}
+        >
+          <Text style={styles.text}>Buscar</Text>
+        </Pressable>
+      </View>
+
+      <SafeAreaView style={styles.containerMeals}>
+        <Text>Quantidade de refeicões fornecidas: {countMeals}</Text>
 
         <FlatList
-          data={dataCoffee}
-          keyExtractor={(item) => item.id}
+          data={dataMeals}
+          keyExtractor={(item) => item.matricula}
           renderItem={({ item }) => renderSnack(item)}
         />
       </SafeAreaView>
 
-      <SafeAreaView style={styles.containerLunch}>
-        <TextInput
-          placeholder="Insira uma data do almoço DD/MM/AAAA"
-          onChangeText={(val) => searchLunch(val)}
-        />
-
-        <Text>Quantidade de almoços servidos: {countLunch}</Text>
-        <FlatList
-          data={dataLunch}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => renderSnack(item)}
-        />
-      </SafeAreaView>
-
-      <SafeAreaView style={styles.containerSupper}>
-        <TextInput
-          placeholder="Insira uma data da janta DD/MM/AAAA"
-          onChangeText={(val) => searchSupper(val)}
-        />
-
-        <Text>Quantidade de jantas servidas: {countSupper}</Text>
-        <FlatList
-          data={dataSupper}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => renderSnack(item)}
-        />
-      </SafeAreaView>
-
-      <Pressable style={styles.button} onPress={generateExcelCoffee}>
-        <Text style={styles.text}>Gerar Relatorio Café da Manhã</Text>
-      </Pressable>
-
-      <Pressable style={styles.button} onPress={generateExcelLunch}>
-        <Text style={styles.text}>Gerar Relatorio Almoço</Text>
-      </Pressable>
-
-      <Pressable style={styles.button} onPress={generateExcelSupper}>
-        <Text style={styles.text}>Gerar Relatorio Janta</Text>
+      <Pressable style={styles.button} onPress={generateExcelMeals}>
+        <Text style={styles.text}>Gerar Relatório das Refeições</Text>
       </Pressable>
 
       <StatusBar animated={true} backgroundColor="#61dafb" />
@@ -208,24 +119,31 @@ export function MealReport() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-start",
     flexDirection: "column",
 
     backgroundColor: "#fff",
 
     padding: 25,
   },
-  containerCoffee: {
-    marginBottom: 10,
-    height: 150,
+  containerText: {
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    flexDirection: "row",
+
+    backgroundColor: "#fff",
   },
-  containerLunch: {
-    height: 150,
-    marginBottom: 10,
+  containerButton: {
+    justifyContent: "flex-end",
+
+    backgroundColor: "#fff",
   },
-  containerSupper: {
-    height: 150,
+  containerMeals: {
+    alignItems: "center",
+    justifyContent: "space-between",
     marginBottom: 10,
+    marginTop: 10,
+    height: 250,
   },
   button: {
     alignItems: "center",
@@ -237,11 +155,36 @@ const styles = StyleSheet.create({
     backgroundColor: "#6FDC8C",
     margin: 10,
   },
+  buttonBuscar: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 5,
+    paddingHorizontal: 5,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: "#6FDC8C",
+    margin: 10,
+    width: 100,
+  },
   text: {
     fontSize: 16,
     lineHeight: 21,
     fontWeight: "bold",
     letterSpacing: 0.25,
     color: "white",
+  },
+  textDate: {
+    borderColor: "gray",
+    width: "50%",
+    borderWidth: 1,
+    borderRadius: 10,
+    padding: 10,
+  },
+  textType: {
+    borderColor: "gray",
+    width: "50%",
+    borderWidth: 1,
+    borderRadius: 10,
+    padding: 10,
   },
 });

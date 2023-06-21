@@ -2,9 +2,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { Home } from "../screens/Home";
 import { RegisterCollaborator } from "../screens/RegisterCollaborator";
-import { SnackCoffee } from "../screens/SnackCoffee";
-import { SnackLunch } from "../screens/SnackLunch";
-import { SnackSupper } from "../screens/SnackSupper";
+import { RegisterMeals } from "../screens/RegisterMeals";
 import { MealReport } from "../screens/MealReport";
 
 const { Screen, Navigator } = createNativeStackNavigator();
@@ -19,20 +17,11 @@ export function StackRoutes() {
         options={{ title: "Registro de Colaboradores" }}
       />
       <Screen
-        name="snackCoffee"
-        component={SnackCoffee}
-        options={{ title: "Registro do Café da Manhã" }}
+        name="registerMeals"
+        component={RegisterMeals}
+        options={{ title: "Registrar Refeições" }}
       />
-      <Screen
-        name="snackLunch"
-        component={SnackLunch}
-        options={{ title: "Registro do Almoço" }}
-      />
-      <Screen
-        name="snackSupper"
-        component={SnackSupper}
-        options={{ title: "Registro de Janta" }}
-      />
+
       <Screen
         name="mealReport"
         component={MealReport}
