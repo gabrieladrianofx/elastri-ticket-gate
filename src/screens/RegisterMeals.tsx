@@ -3,12 +3,16 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { BarCodeScanner, Constants } from "expo-barcode-scanner";
 import Toast from "react-native-root-toast";
 
+import uuid from "react-native-uuid";
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { StatusBar } from "expo-status-bar";
+import { Audio } from "expo-av";
 
 interface Collaborator {
   matricula: string;
   nome: string;
+  empresa: string;
 }
 
 interface Meals {
@@ -16,6 +20,7 @@ interface Meals {
   dataRefeicao: string;
   horaRefeicao: string;
   tipoDaRefeicao: string;
+  empresa: string;
 }
 
 export function RegisterMeals() {
@@ -35,23 +40,32 @@ export function RegisterMeals() {
   const handleBarCodeScanned = async ({ data }) => {
     try {
       setScanned(true);
+      const sound = new Audio.Sound();
 
       const colab = {
+        id: uuid.v4(),
         matricula: data,
         nome: "undefined",
-        dataRefeicao: new Date().toLocaleString("pt-BR", {
+        dataRefeicao: new Date().toLocaleDateString("pt-BR", {
           timeZone: "America/Sao_Paulo",
           day: "2-digit",
           month: "2-digit",
           year: "numeric",
         }),
-        horaRefeicao: new Date().toLocaleString("pt-BR", {
+        horaRefeicao: new Date().toLocaleTimeString("pt-BR", {
           timeZone: "America/Sao_Paulo",
           hour: "2-digit",
           minute: "2-digit",
         }),
         tipoDaRefeicao: "undefined",
+        empresa: "undefined",
       };
+
+      const convertDate = colab.dataRefeicao.split("/");
+      const correctionDate =
+        convertDate[1] + "/" + convertDate[0] + "/" + convertDate[2];
+
+      colab.dataRefeicao = correctionDate;
 
       const searchMeals = await AsyncStorage.getItem(
         "@elastri_ticket_gate:registerMeals"
@@ -80,6 +94,7 @@ export function RegisterMeals() {
               col.tipoDaRefeicao == colab.tipoDaRefeicao
           );
           if (!collaboratorMealsOrNot) {
+            colab.empresa = collaboratorExistOrNot.empresa;
             colab.nome = collaboratorExistOrNot.nome;
             const collectionMealsData = [...previousMeals, colab];
 
@@ -94,6 +109,8 @@ export function RegisterMeals() {
               backgroundColor: "#6FDC8C",
               textColor: "#000000",
             });
+            await sound.loadAsync(require("./../../assets/beep-07a.mp3"));
+            await sound.playAsync();
             setTimeout(() => {
               setScanned(false);
             }, 2000);
@@ -104,6 +121,8 @@ export function RegisterMeals() {
               backgroundColor: "#ff320c",
               textColor: "#fff",
             });
+            await sound.loadAsync(require("./../../assets/beep-30b.mp3"));
+            await sound.playAsync();
             setTimeout(() => {
               setScanned(false);
             }, 2000);
@@ -115,6 +134,8 @@ export function RegisterMeals() {
             backgroundColor: "#ff320c",
             textColor: "#fff",
           });
+          await sound.loadAsync(require("./../../assets/beep-30b.mp3"));
+          await sound.playAsync();
           setTimeout(() => {
             setScanned(false);
           }, 2000);
@@ -132,6 +153,7 @@ export function RegisterMeals() {
               col.tipoDaRefeicao == colab.tipoDaRefeicao
           );
           if (!collaboratorMealsOrNot) {
+            colab.empresa = collaboratorExistOrNot.empresa;
             colab.nome = collaboratorExistOrNot.nome;
             const collectionMealsData = [...previousMeals, colab];
 
@@ -145,6 +167,8 @@ export function RegisterMeals() {
               backgroundColor: "#6FDC8C",
               textColor: "#000000",
             });
+            await sound.loadAsync(require("./../../assets/beep-07a.mp3"));
+            await sound.playAsync();
             setTimeout(() => {
               setScanned(false);
             }, 2000);
@@ -155,6 +179,8 @@ export function RegisterMeals() {
               backgroundColor: "#ff320c",
               textColor: "#fff",
             });
+            await sound.loadAsync(require("./../../assets/beep-30b.mp3"));
+            await sound.playAsync();
             setTimeout(() => {
               setScanned(false);
             }, 2000);
@@ -166,6 +192,139 @@ export function RegisterMeals() {
             backgroundColor: "#ff320c",
             textColor: "#fff",
           });
+          await sound.loadAsync(require("./../../assets/beep-30b.mp3"));
+          await sound.playAsync();
+          setTimeout(() => {
+            setScanned(false);
+          }, 2000);
+        }
+      } else if (colab.horaRefeicao > "14:00" && colab.horaRefeicao < "14:30") {
+        colab.tipoDaRefeicao = "LANCHE SAO JOAO";
+        const collaboratorExistOrNot = previousCollaboratorData.find(
+          (element) => element.matricula == colab.matricula
+        );
+        if (collaboratorExistOrNot) {
+          const collaboratorMealsOrNot = previousMeals.some(
+            (col) =>
+              col.matricula == colab.matricula &&
+              col.dataRefeicao == colab.dataRefeicao &&
+              col.tipoDaRefeicao == colab.tipoDaRefeicao
+          );
+          if (!collaboratorMealsOrNot) {
+            colab.empresa = collaboratorExistOrNot.empresa;
+            colab.nome = collaboratorExistOrNot.nome;
+            const collectionMealsData = [...previousMeals, colab];
+
+            await AsyncStorage.setItem(
+              "@elastri_ticket_gate:registerMeals",
+              JSON.stringify(collectionMealsData)
+            );
+            Toast.show("🌽🔥 Bem Vindo a Festa Junina CCEE 🌽🔥", {
+              position: 150,
+              duration: 1500,
+              backgroundColor: "#6FDC8C",
+              textColor: "#000000",
+            });
+            Toast.show("🌽🔥 Divirta-se 🌽🔥", {
+              position: 150,
+              duration: 1500,
+              backgroundColor: "#6FDC8C",
+              textColor: "#000000",
+            });
+            await sound.loadAsync(require("./../../assets/beep-07a.mp3"));
+            await sound.playAsync();
+            setTimeout(() => {
+              setScanned(false);
+            }, 2000);
+          } else {
+            Toast.show("🌽🔥 Você Está Presente em Nossa Festa Junina! 🖐", {
+              position: 150,
+              duration: 1500,
+              backgroundColor: "#ff320c",
+              textColor: "#fff",
+            });
+            await sound.loadAsync(require("./../../assets/beep-30b.mp3"));
+            await sound.playAsync();
+            setTimeout(() => {
+              setScanned(false);
+            }, 2000);
+          }
+        } else {
+          Toast.show("Colaborador não cadastrado! ✋", {
+            position: 150,
+            duration: 1500,
+            backgroundColor: "#ff320c",
+            textColor: "#fff",
+          });
+          await sound.loadAsync(require("./../../assets/beep-30b.mp3"));
+          await sound.playAsync();
+          setTimeout(() => {
+            setScanned(false);
+          }, 2000);
+        }
+      } else if (colab.horaRefeicao > "14:40" && colab.horaRefeicao < "15:31") {
+        colab.tipoDaRefeicao = "BRINDE SAO JOAO";
+        const collaboratorExistOrNot = previousCollaboratorData.find(
+          (element) => element.matricula == colab.matricula
+        );
+        if (collaboratorExistOrNot) {
+          const collaboratorMealsOrNot = previousMeals.some(
+            (col) =>
+              col.matricula == colab.matricula &&
+              col.dataRefeicao == colab.dataRefeicao &&
+              col.tipoDaRefeicao == colab.tipoDaRefeicao
+          );
+          if (!collaboratorMealsOrNot) {
+            colab.empresa = collaboratorExistOrNot.empresa;
+            colab.nome = collaboratorExistOrNot.nome;
+            const collectionMealsData = [...previousMeals, colab];
+
+            await AsyncStorage.setItem(
+              "@elastri_ticket_gate:registerMeals",
+              JSON.stringify(collectionMealsData)
+            );
+            Toast.show(
+              "🌽🔥 Parabéns, Concorrerá ao SORTEIO JUNINO CCEE 🌽🔥",
+              {
+                position: 150,
+                duration: 1500,
+                backgroundColor: "#6FDC8C",
+                textColor: "#000000",
+              }
+            );
+            Toast.show("🌽🔥 Boa Sorte ! 🌽🔥", {
+              position: 250,
+              duration: 1500,
+              backgroundColor: "#6FDC8C",
+              textColor: "#000000",
+            });
+            await sound.loadAsync(require("./../../assets/beep-07a.mp3"));
+            await sound.playAsync();
+            setTimeout(() => {
+              setScanned(false);
+            }, 2000);
+          } else {
+            Toast.show("🌽🔥 Desculpe, Você Já Concorre Ao Sorteio 🖐!", {
+              position: 150,
+              duration: 1500,
+              backgroundColor: "#ff320c",
+              textColor: "#fff",
+            });
+            await sound.loadAsync(require("./../../assets/beep-30b.mp3"));
+            await sound.playAsync();
+            setTimeout(() => {
+              setScanned(false);
+            }, 2000);
+          }
+        } else {
+          Toast.show("Colaborador não cadastrado! ✋", {
+            position: 150,
+            duration: 1500,
+            backgroundColor: "#ff320c",
+            textColor: "#fff",
+          });
+          await sound.loadAsync(require("./../../assets/beep-30b.mp3"));
+          await sound.playAsync();
           setTimeout(() => {
             setScanned(false);
           }, 2000);
@@ -183,6 +342,7 @@ export function RegisterMeals() {
               col.tipoDaRefeicao == colab.tipoDaRefeicao
           );
           if (!collaboratorMealsOrNot) {
+            colab.empresa = collaboratorExistOrNot.empresa;
             colab.nome = collaboratorExistOrNot.nome;
             const collectionMealsData = [...previousMeals, colab];
 
@@ -197,6 +357,8 @@ export function RegisterMeals() {
               backgroundColor: "#6FDC8C",
               textColor: "#000000",
             });
+            await sound.loadAsync(require("./../../assets/beep-07a.mp3"));
+            await sound.playAsync();
             setTimeout(() => {
               setScanned(false);
             }, 2000);
@@ -207,6 +369,8 @@ export function RegisterMeals() {
               backgroundColor: "#ff320c",
               textColor: "#000000",
             });
+            await sound.loadAsync(require("./../../assets/beep-30b.mp3"));
+            await sound.playAsync();
             setTimeout(() => {
               setScanned(false);
             }, 2000);
@@ -218,6 +382,8 @@ export function RegisterMeals() {
             backgroundColor: "#ff320c",
             textColor: "#000000",
           });
+          await sound.loadAsync(require("./../../assets/beep-07a.mp3"));
+          await sound.playAsync();
           setTimeout(() => {
             setScanned(false);
           }, 2000);
@@ -229,6 +395,8 @@ export function RegisterMeals() {
           backgroundColor: "#ff320c",
           textColor: "#000000",
         });
+        await sound.loadAsync(require("./../../assets/beep-30b.mp3"));
+        await sound.playAsync();
         setTimeout(() => {
           setScanned(false);
         }, 2000);

@@ -67,7 +67,7 @@ export function MealReport() {
       <View>
         <Text>
           {item.matricula} - {item.nome} - {item.dataRefeicao} -{" "}
-          {item.horaRefeicao} - {item.tipoDaRefeicao}
+          {item.horaRefeicao} - {item.tipoDaRefeicao} - {item.empresa}
         </Text>
       </View>
     );
@@ -78,12 +78,12 @@ export function MealReport() {
       <View style={styles.containerText}>
         <TextInput
           style={styles.textDate}
-          placeholder="Insira uma data refeicao DD/MM/AAAA"
+          placeholder="Insira uma data refeicao DD/MM/AA"
           onChangeText={(val) => setDateMeals(val)}
         />
         <TextInput
           style={styles.textType}
-          placeholder="Insira o Tipo da Refeicao. Ex.: 'CAFE / ALMOCO / JANTA'"
+          placeholder="Ex.: 'CAFE / ALMOCO / JANTA'"
           onChangeText={(val) => setTypeMeals(val)}
         />
       </View>
@@ -102,7 +102,7 @@ export function MealReport() {
 
         <FlatList
           data={dataMeals}
-          keyExtractor={(item) => item.matricula}
+          keyExtractor={(item) => item.id}
           renderItem={({ item }) => renderSnack(item)}
         />
       </SafeAreaView>
