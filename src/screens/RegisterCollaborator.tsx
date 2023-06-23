@@ -27,8 +27,8 @@ export function RegisterCollaborator() {
       ],
       copyToCacheDirectory: true,
     });
-
     if (readDocument.type === "success") {
+      setIsExecuting(true);
       const file = await FileSystem.readAsStringAsync(readDocument.uri, {
         encoding: FileSystem.EncodingType.Base64,
       });
@@ -52,6 +52,7 @@ export function RegisterCollaborator() {
           "@elastri_ticket_gate:registerCollaborator",
           JSON.stringify(collaborators)
         );
+        setIsExecuting(false);
         Toast.show("Colaboradores cadastrados sucesso 🤝", {
           position: 150,
           duration: 1500,
@@ -97,6 +98,7 @@ export function RegisterCollaborator() {
                 JSON.stringify(collectionData)
               );
             }
+            setIsExecuting(false);
             Toast.show("Colaboradores Adicionados 🗄️", {
               position: 150,
               duration: 2000,
@@ -104,6 +106,7 @@ export function RegisterCollaborator() {
               textColor: "#000000",
             });
           } else {
+            setIsExecuting(false);
             Toast.show("Não há dados a serem registrados 🖨️", {
               position: 150,
               duration: 2000,
@@ -227,7 +230,7 @@ export function RegisterCollaborator() {
 
       <Spinner
         visible={isExecuting}
-        textContent="Por favor aguarde, estamos gerando os crachá ⌛"
+        textContent="Por favor aguarde o processamento ⌛"
         textStyle={styles.spinnerTextStyle}
       />
     </View>
