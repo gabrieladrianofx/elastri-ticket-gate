@@ -81,7 +81,7 @@ export function RegisterMeals() {
         ? JSON.parse(searchCollaborator)
         : [];
 
-      if (colab.horaRefeicao > "04:59" && colab.horaRefeicao < "07:00") {
+      if (colab.horaRefeicao > "05:59" && colab.horaRefeicao < "08:00") {
         colab.tipoDaRefeicao = "CAFE";
         const collaboratorExistOrNot = previousCollaboratorData.find(
           (element) => element.matricula == colab.matricula
@@ -103,7 +103,7 @@ export function RegisterMeals() {
               JSON.stringify(collectionMealsData)
             );
 
-            Toast.show("Almoço registrado com sucesso 🤝", {
+            Toast.show("Café registrado com sucesso 🤝", {
               position: 150,
               duration: 1500,
               backgroundColor: "#6FDC8C",
@@ -140,7 +140,7 @@ export function RegisterMeals() {
             setScanned(false);
           }, 2000);
         }
-      } else if (colab.horaRefeicao > "10:59" && colab.horaRefeicao < "13:00") {
+      } else if (colab.horaRefeicao > "10:49" && colab.horaRefeicao < "13:30") {
         colab.tipoDaRefeicao = "ALMOCO";
         const collaboratorExistOrNot = previousCollaboratorData.find(
           (element) => element.matricula == colab.matricula
@@ -198,138 +198,7 @@ export function RegisterMeals() {
             setScanned(false);
           }, 2000);
         }
-      } else if (colab.horaRefeicao > "14:00" && colab.horaRefeicao < "14:30") {
-        colab.tipoDaRefeicao = "LANCHE SAO JOAO";
-        const collaboratorExistOrNot = previousCollaboratorData.find(
-          (element) => element.matricula == colab.matricula
-        );
-        if (collaboratorExistOrNot) {
-          const collaboratorMealsOrNot = previousMeals.some(
-            (col) =>
-              col.matricula == colab.matricula &&
-              col.dataRefeicao == colab.dataRefeicao &&
-              col.tipoDaRefeicao == colab.tipoDaRefeicao
-          );
-          if (!collaboratorMealsOrNot) {
-            colab.empresa = collaboratorExistOrNot.empresa;
-            colab.nome = collaboratorExistOrNot.nome;
-            const collectionMealsData = [...previousMeals, colab];
-
-            await AsyncStorage.setItem(
-              "@elastri_ticket_gate:registerMeals",
-              JSON.stringify(collectionMealsData)
-            );
-            Toast.show("🌽🔥 Bem Vindo a Festa Junina CCEE 🌽🔥", {
-              position: 150,
-              duration: 1500,
-              backgroundColor: "#6FDC8C",
-              textColor: "#000000",
-            });
-            Toast.show("🌽🔥 Divirta-se 🌽🔥", {
-              position: 150,
-              duration: 1500,
-              backgroundColor: "#6FDC8C",
-              textColor: "#000000",
-            });
-            await sound.loadAsync(require("./../../assets/beep-07a.mp3"));
-            await sound.playAsync();
-            setTimeout(() => {
-              setScanned(false);
-            }, 2000);
-          } else {
-            Toast.show("🌽🔥 Você Está Presente em Nossa Festa Junina! 🖐", {
-              position: 150,
-              duration: 1500,
-              backgroundColor: "#ff320c",
-              textColor: "#fff",
-            });
-            await sound.loadAsync(require("./../../assets/beep-30b.mp3"));
-            await sound.playAsync();
-            setTimeout(() => {
-              setScanned(false);
-            }, 2000);
-          }
-        } else {
-          Toast.show("Colaborador não cadastrado! ✋", {
-            position: 150,
-            duration: 1500,
-            backgroundColor: "#ff320c",
-            textColor: "#fff",
-          });
-          await sound.loadAsync(require("./../../assets/beep-30b.mp3"));
-          await sound.playAsync();
-          setTimeout(() => {
-            setScanned(false);
-          }, 2000);
-        }
-      } else if (colab.horaRefeicao > "14:40" && colab.horaRefeicao < "15:31") {
-        colab.tipoDaRefeicao = "BRINDE SAO JOAO";
-        const collaboratorExistOrNot = previousCollaboratorData.find(
-          (element) => element.matricula == colab.matricula
-        );
-        if (collaboratorExistOrNot) {
-          const collaboratorMealsOrNot = previousMeals.some(
-            (col) =>
-              col.matricula == colab.matricula &&
-              col.dataRefeicao == colab.dataRefeicao &&
-              col.tipoDaRefeicao == colab.tipoDaRefeicao
-          );
-          if (!collaboratorMealsOrNot) {
-            colab.empresa = collaboratorExistOrNot.empresa;
-            colab.nome = collaboratorExistOrNot.nome;
-            const collectionMealsData = [...previousMeals, colab];
-
-            await AsyncStorage.setItem(
-              "@elastri_ticket_gate:registerMeals",
-              JSON.stringify(collectionMealsData)
-            );
-            Toast.show(
-              "🌽🔥 Parabéns, Concorrerá ao SORTEIO JUNINO CCEE 🌽🔥",
-              {
-                position: 150,
-                duration: 1500,
-                backgroundColor: "#6FDC8C",
-                textColor: "#000000",
-              }
-            );
-            Toast.show("🌽🔥 Boa Sorte ! 🌽🔥", {
-              position: 250,
-              duration: 1500,
-              backgroundColor: "#6FDC8C",
-              textColor: "#000000",
-            });
-            await sound.loadAsync(require("./../../assets/beep-07a.mp3"));
-            await sound.playAsync();
-            setTimeout(() => {
-              setScanned(false);
-            }, 2000);
-          } else {
-            Toast.show("🌽🔥 Desculpe, Você Já Concorre Ao Sorteio 🖐!", {
-              position: 150,
-              duration: 1500,
-              backgroundColor: "#ff320c",
-              textColor: "#fff",
-            });
-            await sound.loadAsync(require("./../../assets/beep-30b.mp3"));
-            await sound.playAsync();
-            setTimeout(() => {
-              setScanned(false);
-            }, 2000);
-          }
-        } else {
-          Toast.show("Colaborador não cadastrado! ✋", {
-            position: 150,
-            duration: 1500,
-            backgroundColor: "#ff320c",
-            textColor: "#fff",
-          });
-          await sound.loadAsync(require("./../../assets/beep-30b.mp3"));
-          await sound.playAsync();
-          setTimeout(() => {
-            setScanned(false);
-          }, 2000);
-        }
-      } else if (colab.horaRefeicao > "16:59" && colab.horaRefeicao < "20:00") {
+      } else if (colab.horaRefeicao > "20:29" && colab.horaRefeicao < "22:30") {
         colab.tipoDaRefeicao = "JANTA";
         const collaboratorExistOrNot = previousCollaboratorData.find(
           (element) => element.matricula == colab.matricula
