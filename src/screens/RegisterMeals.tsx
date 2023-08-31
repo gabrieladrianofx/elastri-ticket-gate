@@ -81,7 +81,7 @@ export function RegisterMeals() {
         ? JSON.parse(searchCollaborator)
         : [];
 
-      if (colab.horaRefeicao > "05:59" && colab.horaRefeicao < "07:30") {
+      if (colab.horaRefeicao > "04:59" && colab.horaRefeicao < "06:30") {
         colab.tipoDaRefeicao = "CAFE";
         const collaboratorExistOrNot = previousCollaboratorData.find(
           (element) => element.matricula == colab.matricula
@@ -140,7 +140,7 @@ export function RegisterMeals() {
             setScanned(false);
           }, 2000);
         }
-      } else if (colab.horaRefeicao > "11:29" && colab.horaRefeicao < "13:30") {
+      } else if (colab.horaRefeicao > "10:59" && colab.horaRefeicao < "13:15") {
         colab.tipoDaRefeicao = "ALMOCO";
         const collaboratorExistOrNot = previousCollaboratorData.find(
           (element) => element.matricula == colab.matricula
