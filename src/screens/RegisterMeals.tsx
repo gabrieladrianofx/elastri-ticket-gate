@@ -81,7 +81,7 @@ export function RegisterMeals() {
         ? JSON.parse(searchCollaborator)
         : [];
 
-      if (colab.horaRefeicao > "05:19" && colab.horaRefeicao < "08:00") {
+      if (colab.horaRefeicao > "05:59" && colab.horaRefeicao < "08:00") {
         colab.tipoDaRefeicao = "CAFE";
         const collaboratorExistOrNot = previousCollaboratorData.find(
           (element) => element.matricula == colab.matricula
@@ -103,21 +103,26 @@ export function RegisterMeals() {
               JSON.stringify(collectionMealsData)
             );
 
-            Toast.show("Café registrado com sucesso 🤝", {
+            // Toast.show("Café registrado com sucesso 🤝", {
+            //   position: 150,
+            //   duration: 1500,
+            //   backgroundColor: "#6FDC8C",
+            //   textColor: "#000000",
+            // });
+            Toast.show("✅", {
               position: 150,
-              duration: 1500,
-              backgroundColor: "#6FDC8C",
-              textColor: "#000000",
+              duration: 2000,
+              textStyle: { fontSize: 200 },
             });
             await sound.loadAsync(require("./../../assets/beep-07a.mp3"));
             await sound.playAsync();
             setTimeout(() => {
               setScanned(false);
-            }, 2000);
+            }, 2500);
           } else {
             Toast.show("✋ | Registro encontrado anteriormente!", {
               position: 150,
-              duration: 1500,
+              duration: 2000,
               backgroundColor: "#ff320c",
               textColor: "#fff",
             });
@@ -125,12 +130,12 @@ export function RegisterMeals() {
             await sound.playAsync();
             setTimeout(() => {
               setScanned(false);
-            }, 2000);
+            }, 2500);
           }
         } else {
           Toast.show("Colaborador não cadastrado! ✋", {
             position: 150,
-            duration: 1500,
+            duration: 2000,
             backgroundColor: "#ff320c",
             textColor: "#fff",
           });
@@ -138,9 +143,9 @@ export function RegisterMeals() {
           await sound.playAsync();
           setTimeout(() => {
             setScanned(false);
-          }, 2000);
+          }, 2500);
         }
-      } else if (colab.horaRefeicao > "10:59" && colab.horaRefeicao < "14:00") {
+      } else if (colab.horaRefeicao > "10:49" && colab.horaRefeicao < "13:30") {
         colab.tipoDaRefeicao = "ALMOCO";
         const collaboratorExistOrNot = previousCollaboratorData.find(
           (element) => element.matricula == colab.matricula
@@ -161,21 +166,21 @@ export function RegisterMeals() {
               "@elastri_ticket_gate:registerMeals",
               JSON.stringify(collectionMealsData)
             );
-            Toast.show("Almoço registrado com sucesso 🤝", {
+            Toast.show("✅", {
               position: 150,
-              duration: 1500,
-              backgroundColor: "#6FDC8C",
+              duration: 2000,
               textColor: "#000000",
+              textStyle: { fontSize: 200 },
             });
             await sound.loadAsync(require("./../../assets/beep-07a.mp3"));
             await sound.playAsync();
             setTimeout(() => {
               setScanned(false);
-            }, 2000);
+            }, 2500);
           } else {
             Toast.show("✋ | Registro encontrado anteriormente!", {
               position: 150,
-              duration: 1500,
+              duration: 2000,
               backgroundColor: "#ff320c",
               textColor: "#fff",
             });
@@ -183,12 +188,12 @@ export function RegisterMeals() {
             await sound.playAsync();
             setTimeout(() => {
               setScanned(false);
-            }, 2000);
+            }, 2500);
           }
         } else {
           Toast.show("Colaborador não cadastrado! ✋", {
             position: 150,
-            duration: 1500,
+            duration: 2000,
             backgroundColor: "#ff320c",
             textColor: "#fff",
           });
@@ -196,9 +201,9 @@ export function RegisterMeals() {
           await sound.playAsync();
           setTimeout(() => {
             setScanned(false);
-          }, 2000);
+          }, 2500);
         }
-      } else if (colab.horaRefeicao > "17:59" && colab.horaRefeicao < "21:30") {
+      } else if (colab.horaRefeicao > "20:29" && colab.horaRefeicao < "22:30") {
         colab.tipoDaRefeicao = "JANTA";
         const collaboratorExistOrNot = previousCollaboratorData.find(
           (element) => element.matricula == colab.matricula
@@ -220,21 +225,21 @@ export function RegisterMeals() {
               JSON.stringify(collectionMealsData)
             );
 
-            Toast.show("Janta registrada com sucesso 🤝", {
+            Toast.show("✅", {
               position: 150,
-              duration: 1500,
-              backgroundColor: "#6FDC8C",
+              duration: 2000,
               textColor: "#000000",
+              textStyle: { fontSize: 200 },
             });
             await sound.loadAsync(require("./../../assets/beep-07a.mp3"));
             await sound.playAsync();
             setTimeout(() => {
               setScanned(false);
-            }, 2000);
+            }, 2500);
           } else {
             Toast.show("✋ | Registro encontrado anteriormente!", {
               position: 150,
-              duration: 1500,
+              duration: 2000,
               backgroundColor: "#ff320c",
               textColor: "#000000",
             });
@@ -242,12 +247,12 @@ export function RegisterMeals() {
             await sound.playAsync();
             setTimeout(() => {
               setScanned(false);
-            }, 2000);
+            }, 2500);
           }
         } else {
           Toast.show("Colaborador não cadastrado! ✋", {
             position: 150,
-            duration: 1500,
+            duration: 2000,
             backgroundColor: "#ff320c",
             textColor: "#000000",
           });
@@ -255,12 +260,12 @@ export function RegisterMeals() {
           await sound.playAsync();
           setTimeout(() => {
             setScanned(false);
-          }, 2000);
+          }, 2500);
         }
       } else {
         Toast.show("Desculpe, fora do hórario de refeicão! ⌛", {
           position: 150,
-          duration: 1500,
+          duration: 2000,
           backgroundColor: "#ff320c",
           textColor: "#000000",
         });
@@ -268,7 +273,7 @@ export function RegisterMeals() {
         await sound.playAsync();
         setTimeout(() => {
           setScanned(false);
-        }, 2000);
+        }, 2500);
       }
     } catch (error) {
       Toast.show(
@@ -282,7 +287,7 @@ export function RegisterMeals() {
       );
       setTimeout(() => {
         setScanned(false);
-      }, 2000);
+      }, 2500);
     }
   };
 
