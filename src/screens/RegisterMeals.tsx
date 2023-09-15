@@ -81,7 +81,7 @@ export function RegisterMeals() {
         ? JSON.parse(searchCollaborator)
         : [];
 
-      if (colab.horaRefeicao > "05:59" && colab.horaRefeicao < "09:00") {
+      if (colab.horaRefeicao > "05:29" && colab.horaRefeicao < "06:45") {
         colab.tipoDaRefeicao = "CAFE";
         const collaboratorExistOrNot = previousCollaboratorData.find(
           (element) => element.matricula == colab.matricula
@@ -145,7 +145,7 @@ export function RegisterMeals() {
             setScanned(false);
           }, 2500);
         }
-      } else if (colab.horaRefeicao > "10:49" && colab.horaRefeicao < "13:30") {
+      } else if (colab.horaRefeicao > "10:59" && colab.horaRefeicao < "13:30") {
         colab.tipoDaRefeicao = "ALMOCO";
         const collaboratorExistOrNot = previousCollaboratorData.find(
           (element) => element.matricula == colab.matricula
@@ -203,7 +203,7 @@ export function RegisterMeals() {
             setScanned(false);
           }, 2500);
         }
-      } else if (colab.horaRefeicao > "18:29" && colab.horaRefeicao < "20:30") {
+      } else if (colab.horaRefeicao > "17:59" && colab.horaRefeicao < "20:00") {
         colab.tipoDaRefeicao = "JANTA";
         const collaboratorExistOrNot = previousCollaboratorData.find(
           (element) => element.matricula == colab.matricula
