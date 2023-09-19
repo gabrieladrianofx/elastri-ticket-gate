@@ -82,7 +82,7 @@ export function RegisterMeals() {
         : [];
 
       if (colab.horaRefeicao > "05:59" && colab.horaRefeicao < "08:00") {
-        colab.tipoDaRefeicao = "CAFE";
+        colab.tipoDaRefeicao = "ASSINATURA_PTS";
         const collaboratorExistOrNot = previousCollaboratorData.find(
           (element) => element.matricula == colab.matricula
         );
