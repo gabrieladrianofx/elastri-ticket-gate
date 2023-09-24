@@ -26,7 +26,7 @@ export function Home({ navigation }) {
       </Pressable>
 
       <Pressable style={styles.button} onPress={openScreenRegisterMeals}>
-        <Text style={styles.text}>Registrar Assinaturas e PTS</Text>
+        <Text style={styles.text}>Registrar Refeições</Text>
       </Pressable>
 
       <Pressable style={styles.button} onPress={openScreenMealReport}>

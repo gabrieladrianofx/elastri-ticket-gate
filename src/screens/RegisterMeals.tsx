@@ -81,8 +81,8 @@ export function RegisterMeals() {
         ? JSON.parse(searchCollaborator)
         : [];
 
-      if (colab.horaRefeicao > "05:59" && colab.horaRefeicao < "08:00") {
-        colab.tipoDaRefeicao = "ASSINATURA_PTS";
+      if (colab.horaRefeicao > "05:29" && colab.horaRefeicao < "06:49") {
+        colab.tipoDaRefeicao = "CAFE";
         const collaboratorExistOrNot = previousCollaboratorData.find(
           (element) => element.matricula == colab.matricula
         );
@@ -145,8 +145,125 @@ export function RegisterMeals() {
             setScanned(false);
           }, 2500);
         }
+      } else if (colab.horaRefeicao > "11:29" && colab.horaRefeicao < "13:30") {
+        colab.tipoDaRefeicao = "ALMOCO";
+        const collaboratorExistOrNot = previousCollaboratorData.find(
+          (element) => element.matricula == colab.matricula
+        );
+        if (collaboratorExistOrNot) {
+          const collaboratorMealsOrNot = previousMeals.some(
+            (col) =>
+              col.matricula == colab.matricula &&
+              col.dataRefeicao == colab.dataRefeicao &&
+              col.tipoDaRefeicao == colab.tipoDaRefeicao
+          );
+          if (!collaboratorMealsOrNot) {
+            colab.empresa = collaboratorExistOrNot.empresa;
+            colab.nome = collaboratorExistOrNot.nome;
+            const collectionMealsData = [...previousMeals, colab];
+
+            await AsyncStorage.setItem(
+              "@elastri_ticket_gate:registerMeals",
+              JSON.stringify(collectionMealsData)
+            );
+            Toast.show("✅", {
+              position: 150,
+              duration: 2000,
+              textColor: "#000000",
+              textStyle: { fontSize: 200 },
+            });
+            await sound.loadAsync(require("./../../assets/beep-07a.mp3"));
+            await sound.playAsync();
+            setTimeout(() => {
+              setScanned(false);
+            }, 2500);
+          } else {
+            Toast.show("✋ | Registro encontrado anteriormente!", {
+              position: 150,
+              duration: 2000,
+              backgroundColor: "#ff320c",
+              textColor: "#fff",
+            });
+            await sound.loadAsync(require("./../../assets/beep-30b.mp3"));
+            await sound.playAsync();
+            setTimeout(() => {
+              setScanned(false);
+            }, 2500);
+          }
+        } else {
+          Toast.show("Colaborador não cadastrado! ✋", {
+            position: 150,
+            duration: 2000,
+            backgroundColor: "#ff320c",
+            textColor: "#fff",
+          });
+          await sound.loadAsync(require("./../../assets/beep-30b.mp3"));
+          await sound.playAsync();
+          setTimeout(() => {
+            setScanned(false);
+          }, 2500);
+        }
+      } else if (colab.horaRefeicao > "17:59" && colab.horaRefeicao < "20:00") {
+        colab.tipoDaRefeicao = "JANTA";
+        const collaboratorExistOrNot = previousCollaboratorData.find(
+          (element) => element.matricula == colab.matricula
+        );
+        if (collaboratorExistOrNot) {
+          const collaboratorMealsOrNot = previousMeals.some(
+            (col) =>
+              col.matricula == colab.matricula &&
+              col.dataRefeicao == colab.dataRefeicao &&
+              col.tipoDaRefeicao == colab.tipoDaRefeicao
+          );
+          if (!collaboratorMealsOrNot) {
+            colab.empresa = collaboratorExistOrNot.empresa;
+            colab.nome = collaboratorExistOrNot.nome;
+            const collectionMealsData = [...previousMeals, colab];
+
+            await AsyncStorage.setItem(
+              "@elastri_ticket_gate:registerMeals",
+              JSON.stringify(collectionMealsData)
+            );
+
+            Toast.show("✅", {
+              position: 150,
+              duration: 2000,
+              textColor: "#000000",
+              textStyle: { fontSize: 200 },
+            });
+            await sound.loadAsync(require("./../../assets/beep-07a.mp3"));
+            await sound.playAsync();
+            setTimeout(() => {
+              setScanned(false);
+            }, 2500);
+          } else {
+            Toast.show("✋ | Registro encontrado anteriormente!", {
+              position: 150,
+              duration: 2000,
+              backgroundColor: "#ff320c",
+              textColor: "#000000",
+            });
+            await sound.loadAsync(require("./../../assets/beep-30b.mp3"));
+            await sound.playAsync();
+            setTimeout(() => {
+              setScanned(false);
+            }, 2500);
+          }
+        } else {
+          Toast.show("Colaborador não cadastrado! ✋", {
+            position: 150,
+            duration: 2000,
+            backgroundColor: "#ff320c",
+            textColor: "#000000",
+          });
+          await sound.loadAsync(require("./../../assets/beep-07a.mp3"));
+          await sound.playAsync();
+          setTimeout(() => {
+            setScanned(false);
+          }, 2500);
+        }
       } else {
-        Toast.show("Desculpe, fora do hórario definido para registro! ⌛", {
+        Toast.show("Desculpe, fora do hórario de refeicão! ⌛", {
           position: 150,
           duration: 2000,
           backgroundColor: "#ff320c",
