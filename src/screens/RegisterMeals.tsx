@@ -81,7 +81,7 @@ export function RegisterMeals() {
         ? JSON.parse(searchCollaborator)
         : [];
 
-      if (colab.horaRefeicao > "05:29" && colab.horaRefeicao < "06:49") {
+      if (colab.horaRefeicao > "04:59" && colab.horaRefeicao < "06:49") {
         colab.tipoDaRefeicao = "CAFE";
         const collaboratorExistOrNot = previousCollaboratorData.find(
           (element) => element.matricula == colab.matricula
