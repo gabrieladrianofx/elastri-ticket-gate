@@ -18,7 +18,7 @@ export function Home({ navigation }) {
     <View style={styles.container}>
       <Image
         style={styles.buttonImage}
-        source={require("./../public/images/icon.png")}
+        source={require("./../public/images/icon2.png")}
       />
 
       <Pressable style={styles.button} onPress={openScreenRegisterCollaborator}>
@@ -26,7 +26,7 @@ export function Home({ navigation }) {
       </Pressable>
 
       <Pressable style={styles.button} onPress={openScreenRegisterMeals}>
-        <Text style={styles.text}>Registrar Refeições</Text>
+        <Text style={styles.text}>Registrar Assinaturas e PDS</Text>
       </Pressable>
 
       <Pressable style={styles.button} onPress={openScreenMealReport}>

@@ -78,12 +78,12 @@ export function MealReport() {
       <View style={styles.containerText}>
         <TextInput
           style={styles.textDate}
-          placeholder="Insira uma data refeicao DD/MM/AA"
+          placeholder="Insira uma data da assinatura DD/MM/AA"
           onChangeText={(val) => setDateMeals(val)}
         />
         <TextInput
           style={styles.textType}
-          placeholder="Ex.: 'CAFE / ALMOCO / JANTA'"
+          placeholder="Ex.: 'ASSINATURA_PDS'"
           onChangeText={(val) => setTypeMeals(val)}
         />
       </View>
@@ -98,7 +98,9 @@ export function MealReport() {
       </View>
 
       <SafeAreaView style={styles.containerMeals}>
-        <Text>Quantidade de refeicões fornecidas: {countMeals}</Text>
+        <Text style={styles.textQtn}>
+          Quantidade de assinatura capturadas na data informada: {countMeals}
+        </Text>
 
         <FlatList
           data={dataMeals}
@@ -108,7 +110,7 @@ export function MealReport() {
       </SafeAreaView>
 
       <Pressable style={styles.button} onPress={generateExcelMeals}>
-        <Text style={styles.text}>Gerar Relatório das Refeições</Text>
+        <Text style={styles.text}>Gerar Relatório de Assinaturas e PDS</Text>
       </Pressable>
 
       <StatusBar animated={true} backgroundColor="#61dafb" />
@@ -167,6 +169,7 @@ const styles = StyleSheet.create({
     width: 100,
   },
   text: {
+    textAlign: "center",
     fontSize: 16,
     lineHeight: 21,
     fontWeight: "bold",
@@ -186,5 +189,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     padding: 10,
+  },
+  textQtn: {
+    textAlign: "center",
   },
 });
