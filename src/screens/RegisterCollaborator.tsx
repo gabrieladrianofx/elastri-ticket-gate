@@ -73,48 +73,46 @@ export function RegisterCollaborator() {
           textColor: "#000000",
         });
 
-        setTimeout(async () => {
-          for (let i = 0; i < previousData.length; i++) {
-            const elementBD = previousData[i];
-            const duplicateIndex = collaborators.findIndex(
-              (elementCollaborator) =>
-                elementCollaborator.matricula === elementBD.matricula
+        for (let i = 0; i < previousData.length; i++) {
+          const elementBD = previousData[i];
+          const duplicateIndex = collaborators.findIndex(
+            (elementCollaborator) =>
+              elementCollaborator.matricula === elementBD.matricula
+          );
+
+          if (duplicateIndex !== -1) {
+            collaborators.splice(duplicateIndex, 1);
+          }
+        }
+
+        if (collaborators.length != 0) {
+          for await (let e of collaborators) {
+            const search = await AsyncStorage.getItem(
+              "@elastri_ticket_gate:registerCollaborator"
             );
-
-            if (duplicateIndex !== -1) {
-              collaborators.splice(duplicateIndex, 1);
-            }
+            const prev = search ? JSON.parse(search) : [];
+            let collectionData = [...prev, e];
+            await AsyncStorage.setItem(
+              "@elastri_ticket_gate:registerCollaborator",
+              JSON.stringify(collectionData)
+            );
           }
-
-          if (collaborators.length != 0) {
-            for await (let e of collaborators) {
-              const search = await AsyncStorage.getItem(
-                "@elastri_ticket_gate:registerCollaborator"
-              );
-              const prev = search ? JSON.parse(search) : [];
-              let collectionData = [...prev, e];
-              await AsyncStorage.setItem(
-                "@elastri_ticket_gate:registerCollaborator",
-                JSON.stringify(collectionData)
-              );
-            }
-            setIsExecuting(false);
-            Toast.show("Colaboradores Adicionados 🗄️", {
-              position: 150,
-              duration: 2000,
-              backgroundColor: "#6FDC8C",
-              textColor: "#000000",
-            });
-          } else {
-            setIsExecuting(false);
-            Toast.show("Não há dados a serem registrados 🖨️", {
-              position: 150,
-              duration: 2000,
-              backgroundColor: "#6FDC8C",
-              textColor: "#000000",
-            });
-          }
-        }, 2000);
+          Toast.show("Colaboradores Adicionados 🗄️", {
+            position: 150,
+            duration: 2000,
+            backgroundColor: "#6FDC8C",
+            textColor: "#000000",
+          });
+          setIsExecuting(false);
+        } else {
+          Toast.show("Não há dados a serem registrados 🖨️", {
+            position: 150,
+            duration: 2000,
+            backgroundColor: "#6FDC8C",
+            textColor: "#000000",
+          });
+          setIsExecuting(false);
+        }
       }
     }
   }
@@ -207,13 +205,13 @@ export function RegisterCollaborator() {
       },
     });
     await shareAsync(file.uri);
-    setIsExecuting(false);
     Toast.show("Obrigado por aguardar 🤗", {
       position: 150,
       duration: 2000,
       backgroundColor: "#6FDC8C",
       textColor: "#000000",
     });
+    setIsExecuting(false);
   }
 
   return (
